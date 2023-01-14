@@ -1,6 +1,7 @@
 from django.db import models
 from .utils import from_cyrillic_to_eng
 
+
 # Create your models here.
 
 
@@ -23,3 +24,15 @@ class Programming_Language(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Job_Offers(models.Model):
+    urls = models.URLField(max_length=200)
+    title = models.CharField(max_length=30, verbose_name='Name od job offer')
+    company = models.CharField(max_length=15, verbose_name='Name of the company')
+    description = models.TextField(verbose_name='Job description of the vacancy')
+    City = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
+    Language = models.ForeignKey(Programming_Language, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.title
