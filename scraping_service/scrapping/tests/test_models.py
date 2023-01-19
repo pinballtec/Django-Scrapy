@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import City
+from ..models import City, Programming_Language
 
 
 class YourTestClass(TestCase):
@@ -18,6 +18,23 @@ class YourTestClass(TestCase):
         field_label = city._meta.get_field('slug').verbose_name
         self.assertEquals(field_label, 'slug')
 
+
+class TestCaseModelProgramming_Language(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        Programming_Language.objects.create(name='Go', slug='Test2')
+
+    def test_name_label(self):
+        city = Programming_Language.objects.get(id=1)
+        field_label = city._meta.get_field('name').verbose_name
+        self.assertEquals(field_label, 'Programming Language')
+
+    def test_slug_label(self):
+        city = Programming_Language.objects.get(id=1)
+        field_label = city._meta.get_field('slug').verbose_name
+        self.assertEquals(field_label, 'slug')
+
     # def setUp(self):
     #     print("setUp: Run once for every test method to setup clean data.")
     #     pass
@@ -33,4 +50,3 @@ class YourTestClass(TestCase):
     # def test_one_plus_one_equals_two(self):
     #     print("Method: test_one_plus_one_equals_two.")
     #     self.assertEqual(1 + 1, 2)
-
