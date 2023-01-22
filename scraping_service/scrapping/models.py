@@ -34,7 +34,7 @@ class Programming_Language(models.Model):
 
 class Job_Offers(models.Model):
     urls = models.URLField(max_length=200, unique=True)
-    title = models.CharField(max_length=30, verbose_name='Name od job offer')
+    title = models.CharField(max_length=30, verbose_name='Name of job offer')
     company = models.CharField(max_length=15, verbose_name='Name of the company')
     description = models.TextField(verbose_name='Job description of the vacancy')
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
