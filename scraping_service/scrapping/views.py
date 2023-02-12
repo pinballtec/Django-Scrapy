@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.views import View
 from .models import Job_Offers
+from .froms import FindForm
 # Create your views here.
 
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
         print(request.GET)
+        form = FindForm()
         city = request.GET.get('city')
         programming_language = request.GET.get('p_language')
         qs = []
@@ -18,4 +20,4 @@ class HomeView(View):
             if programming_language:
                 _filter['language__name'] = programming_language
             qs = Job_Offers.objects.filter(**_filter)
-        return render(request, 'scrapping/home.html', {'object_list': qs})
+        return render(request, 'scrapping/home.html', {'object_list': qs, 'form': form})

@@ -1,17 +1,24 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.test import RequestFactory, TestCase
 from ..models import Job_Offers, Programming_Language, City
+from ..views import HomeView
 
 
 class HomeViewTest(TestCase):
     def setUp(self):
+        self.factory = RequestFactory()
+
+        self.city = City.objects.create(name='New York')
+        self.language = Programming_Language.objects.create(name='Python')
+
         self.job_offer = Job_Offers.objects.create(
-            urls='http://example-case11213214.com',
-            title='Some Job Offer',
-            company='Company',
-            description='Some typical description to Job Offer',
-            city=City.objects.create(name='Warsaw'),
-            language=Programming_Language.objects.create(name='Js')
+            urls='http://example.com',
+            title='Software Engineer',
+            company='ACME',
+            description='Build software',
+            city=self.city,
+            language=self.language
         )
 
     def test_home_view_uses_correct_template(self):
@@ -19,12 +26,15 @@ class HomeViewTest(TestCase):
         response = self.client.get(reverse('home'))
         self.assertTemplateUsed(response, 'scrapping/home.html')
 
-    def test_home_view_returns_all_job_offers(self):
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(self.job_offer, response.context['object_list'])
+    def test_home_view_filters_correctly(self):
+        request = self.factory.get('/', {'city': 'New York'})
+        response = HomeView.as_view()(request)
+        self.assertEqual(list(response.context_data['object_list']), [self.job_offer])
 
-    def test_home_view_class_method(self):
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['object_list'].model, Job_Offers)
+        request = self.factory.get('/', {'p_language': 'Python'})
+        response = HomeView.as_view()(request)
+        self.assertEqual(list(response.context_data['object_list']), [self.job_offer])
+
+        request = self.factory.get('/', {'city': 'New York', 'p_language': 'Python'})
+        response = HomeView.as_view()(request)
+        self.assertEqual(list(response.context_data['object_list']), [self.job_offer])
