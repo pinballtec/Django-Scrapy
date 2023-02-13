@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from .models import Job_Offers
-from .froms import FindForm
+from .forms import FindForm
 # Create your views here.
 
 
