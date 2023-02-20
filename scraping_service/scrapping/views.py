@@ -20,4 +20,6 @@ class HomeView(View):
             if programming_language:
                 _filter['language__name'] = programming_language
             qs = Job_Offers.objects.filter(**_filter)
-        return render(request, 'scrapping/home.html', {'object_list': qs, 'form': form})
+        return render(request,
+                      'scrapping/home.html',
+                      {'object_list': qs, 'form': form})

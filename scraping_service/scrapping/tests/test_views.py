@@ -1,4 +1,4 @@
-from django.test import TestCase
+# from django.test import TestCase
 from django.urls import reverse
 from django.test import RequestFactory, TestCase
 from ..models import Job_Offers, Programming_Language, City
@@ -29,12 +29,20 @@ class HomeViewTest(TestCase):
     def test_home_view_filters_correctly(self):
         request = self.factory.get('/', {'city': 'New York'})
         response = HomeView.as_view()(request)
-        self.assertEqual(list(response.context_data['object_list']), [self.job_offer])
+        self.assertEqual(list(
+            response.context_data['object_list']), [self.job_offer]
+        )
 
         request = self.factory.get('/', {'p_language': 'Python'})
         response = HomeView.as_view()(request)
-        self.assertEqual(list(response.context_data['object_list']), [self.job_offer])
+        self.assertEqual(list(
+            response.context_data['object_list']), [self.job_offer]
+        )
 
-        request = self.factory.get('/', {'city': 'New York', 'p_language': 'Python'})
+        request = self.factory.get(
+            '/', {'city': 'New York', 'p_language': 'Python'}
+        )
         response = HomeView.as_view()(request)
-        self.assertEqual(list(response.context_data['object_list']), [self.job_offer])
+        self.assertEqual(list(
+            response.context_data['object_list']), [self.job_offer]
+        )

@@ -31,7 +31,7 @@ class YourTestClass(TestCase):
         self.assertEquals(field_label, 'slug')
 
 
-class TestCaseModelProgramming_Language(TestCase):
+class TestCaseModelProgrammingLanguage(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -50,7 +50,9 @@ class TestCaseModelProgramming_Language(TestCase):
 
 class JobOffersTestCase(TestCase):
     def test_create_valid_job_offer(self):
-        valid_url = 'https://www.example.com/' + ''.join(random.choices(string.ascii_letters, k=10))
+        valid_url = 'https://www.example.com/' + ''.join(
+            random.choices(string.ascii_letters, k=10)
+        )
         valid_city = City.objects.create(name='New York')
         valid_language = Programming_Language.objects.create(name='Python')
         obj = Job_Offers(

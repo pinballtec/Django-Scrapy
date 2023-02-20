@@ -12,7 +12,7 @@ class FindFormTestCase(TestCase):
         # print(Programming_Language.objects.all().values_list('id', 'name'))
 
     def test_form_valid(self):
-        """If we are using ModelChoiceField, need to be used str instead of .pk"""
+        """ModelChoiceField, need to be used str instead of .pk"""
         form_data = {
             'city': str(self.city),
             'language': str(self.language),
