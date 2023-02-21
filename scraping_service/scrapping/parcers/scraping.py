@@ -13,10 +13,10 @@ headers = [
 ]
 
 errors = []
-jobs = []
 
 
 def pracuj_scrap(url):
+    jobs = []
     domain = 'https://www.pracuj.pl'
 
     url_pracuj = url
@@ -33,6 +33,10 @@ def pracuj_scrap(url):
                 title_conv = title_from_h2.text
                 title_text_only = title_conv.strip().strip('"')
                 print(title_text_only)
+                city_from_h5 = div.find('h5')
+                city_conv = city_from_h5.text
+                city_name_text_only = city_conv.strip().strip('"')
+                print(city_name_text_only)
                 """getting direct link from href"""
                 try:
                     href = title_from_h2.a['href']
@@ -44,9 +48,12 @@ def pracuj_scrap(url):
                 companyName_text_conv = companyName_from_h4.text
                 companyName_text_only = companyName_text_conv.strip().strip('"')
                 print(f'{companyName_text_only}\n\n')
-                jobs.append({'Title': title_text_only,
+                jobs.append({'title': title_text_only,
                              'link': href,
-                             'CompanyName': companyName_text_only
+                             'company': companyName_text_only,
+                             'description': 'Test',
+                             'city': city_name_text_only,
+                             'language': 'Python',
                              })
         # else:
         #     errors.append()
@@ -55,10 +62,11 @@ def pracuj_scrap(url):
         errors.append(e)
 
     # print(jobs)
-    return response
+    return jobs
 
 
 def pracuj_aplikujpl(url):
+    jobs = []
     domain = 'https://www.aplikuj.pl'
     url_olx = url
 
@@ -84,6 +92,7 @@ def pracuj_aplikujpl(url):
                 companyName_from_h4 = div.find('h4')
                 companyName_text_conv = companyName_from_h4.text
                 companyName_text_only = companyName_text_conv.strip().strip('"')
+
                 print(f'{companyName_text_only}\n\n')
                 jobs.append({'Title': title_text_only,
                              'link': f'{domain}{href}',
@@ -96,22 +105,19 @@ def pracuj_aplikujpl(url):
         errors.append(e)
 
     # print(jobs)
-    return response
+    return jobs
 
 
-# print(
-#     pracuj_scrap(
-#         'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'
-#     )
-# )
-# print(
-#     pracuj_aplikujpl(
-#         'https://www.aplikuj.pl/praca/zawod/python-developer'
-#     )
-# )
-#
-# print(jobs)
-
+print(
+    pracuj_scrap(
+        'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'
+    )
+)
+print(
+    pracuj_aplikujpl(
+        'https://www.aplikuj.pl/praca/zawod/python-developer'
+    )
+)
 # h = codecs.open('work.txt', 'w', 'utf8')
 # h.write(str(jobs))
 # h.close()
@@ -123,3 +129,4 @@ def pracuj_aplikujpl(url):
 #     h.write(str(jobs))
 #     h.close()
 
+# stuff to run always here such as class/def
