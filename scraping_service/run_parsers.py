@@ -11,7 +11,7 @@ sys.path.append(proj)
 os.environ["DJANGO_SETTINGS_MODULE"] = 'scraping_service.settings'
 django.setup()
 
-from scrapping.models import City, Programming_Language, Job_Offers
+from scrapping.models import City, Programming_Language, Job_Offers, Errors
 from scrapping.parcers.scraping import *
 
 parsers = ((pracuj_aplikujpl, 'https://www.aplikuj.pl/praca/zawod/python-developer'),
@@ -20,10 +20,17 @@ parsers = ((pracuj_aplikujpl, 'https://www.aplikuj.pl/praca/zawod/python-develop
 city = City.objects.filter(slug='kiev').first()
 language = Programming_Language.objects.filter(slug='teSt').first()
 
-jobs = []
+jobs, errors = [], []
 for func, url in parsers:
-    j = func(url)
-    jobs += j
+    try:
+        j, e = func(url)
+        jobs += j
+        errors += e
+    except ValueError:
+        logging.error("Error stack is failed")
+    finally:
+        j = func(url)
+        jobs += j
 
 # print(jobs)
 e = 0
@@ -46,4 +53,6 @@ for parser, url in parsers:
             logging.error(f"Error saving job offer: {e}")
         else:
             logging.info("Job offer saved successfully")
+    if errors:
+        er = Errors(data=errors).save()
 

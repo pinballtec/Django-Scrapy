@@ -59,7 +59,7 @@ def pracuj_scrap(url):
                     print('No data\n')
 
     except TypeError as e:
-        errors.append(e)
+        errors.append({'Error': e})
 
     return jobs
 
@@ -102,30 +102,9 @@ def pracuj_aplikujpl(url):
                              })
 
     except TypeError as e:
-        errors.append(e)
+        errors.append({'Error': e})
 
     return jobs
 
 
-# print(
-#     pracuj_scrap(
-#         'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'
-#     )
-# )
-# print(
-#     pracuj_aplikujpl(
-#         'https://www.aplikuj.pl/praca/zawod/python-developer'
-#     )
-# )
-# h = codecs.open('work.txt', 'w', 'utf8')
-# h.write(str(jobs))
-# h.close()
-
-# if __name__ == '__main__':
-#     url = 'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'
-#     jobs, errors = pracuj_scrap(url)
-#     h = codecs.open('work.txt', 'w', 'utf-8')
-#     h.write(str(jobs))
-#     h.close()
-
-# stuff to run always here such as class/def
+print(errors)

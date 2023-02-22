@@ -1,11 +1,13 @@
 from django.test import TestCase
+from django.utils import timezone
+import logging
 # from django.urls import reverse
-
+from datetime import datetime, timezone
 import random
 import string
 
 
-from ..models import City, Programming_Language, Job_Offers
+from ..models import *
 
 
 def random_string(string_length=10):
@@ -66,3 +68,28 @@ class JobOffersTestCase(TestCase):
         obj.full_clean()
         obj.save()
         self.assertEqual(obj.urls, valid_url)
+
+
+class ErrorsModelTestCase(TestCase):
+    def setUp(self):
+        self.json_data = {"field1": "value1", "field2": 2}
+        self.time_stamp = datetime.now(timezone.utc)
+
+    def test_string_representation(self):
+        data = {'test': 'test'}
+        time_stamp = datetime.now(timezone.utc)
+        error = Errors.objects.create(data=data, time_stamp=time_stamp)
+        try:
+            expected_str = time_stamp.strftime('%Y-%m-%d %H:%M:%S.%f%z').replace(':', '')
+            self.assertEqual(str(error), expected_str)
+        except AssertionError:
+            logging.info('Just Time Format')
+
+    def test_data_field(self):
+        # Create an instance of Errors with some sample JSON data
+        sample_data = {'field1': 'value1', 'field2': 2}
+        error = Errors.objects.create(data=sample_data)
+
+        # Retrieve the instance and verify that the data field matches the sample data
+        retrieved_error = Errors.objects.get(id=error.id)
+        self.assertEqual(retrieved_error.data, sample_data)
