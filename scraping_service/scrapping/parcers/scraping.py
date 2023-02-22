@@ -27,97 +27,96 @@ def pracuj_scrap(url):
             soup = BeautifulSoup(response.content, 'html.parser')
             main_div = soup.find('div', attrs={'id': '__next'})
             div_list = main_div.find_all('div', attrs={'class': 'c1dwhfs6'})
-            # print(div_list)
             for div in div_list:
                 title_from_h2 = div.find('h2')
                 title_conv = title_from_h2.text
                 title_text_only = title_conv.strip().strip('"')
-                print(title_text_only)
+                # print(title_text_only)
                 city_from_h5 = div.find('h5')
                 city_conv = city_from_h5.text
                 city_name_text_only = city_conv.strip().strip('"')
-                print(city_name_text_only)
+                # print(city_name_text_only)
                 """getting direct link from href"""
                 try:
                     href = title_from_h2.a['href']
                     print(href)
                 except TypeError:
-                    print('Error with link, try smth else')
+                    print('Link Error')
 
                 companyName_from_h4 = div.find('h4')
                 companyName_text_conv = companyName_from_h4.text
                 companyName_text_only = companyName_text_conv.strip().strip('"')
-                print(f'{companyName_text_only}\n\n')
-                jobs.append({'title': title_text_only,
-                             'link': href,
-                             'company': companyName_text_only,
-                             'description': 'Test',
-                             'city': city_name_text_only,
-                             'language': 'Python',
-                             })
-        # else:
-        #     errors.append()
+                # print(f'{companyName_text_only}\n\n')
+                try:
+                    jobs.append({'title': title_text_only,
+                                 'link': href,
+                                 'company': companyName_text_only,
+                                 'description': 'Test',
+                                 'city': city_name_text_only,
+                                 'language': 'Python',
+                                 })
+                except UnboundLocalError:
+                    print('No data\n')
 
     except TypeError as e:
         errors.append(e)
 
-    # print(jobs)
     return jobs
 
 
 def pracuj_aplikujpl(url):
     jobs = []
     domain = 'https://www.aplikuj.pl'
-    url_olx = url
+    url_aplikujpl = url
 
-    response = requests.get(url_olx, headers=headers[randint(0, 2)])
+    response = requests.get(url_aplikujpl, headers=headers[randint(0, 2)])
     try:
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
             main_div = soup.find('main', attrs={'id': 'page-content'})
             div_list = main_div.find_all('section', attrs={'class': 'max-w-6xl mx-auto'})
-            # print(div_list)
             for div in div_list:
                 title_from_h3 = div.find('h3')
                 title_conv = title_from_h3.text
                 title_text_only = title_conv.strip().strip('"')
-                print(title_text_only)
+                # print(title_text_only)
                 """getting direct link from href"""
                 try:
                     href = title_from_h3.a['href']
-                    print(f'{domain}{href}')
+                    # print(f'{domain}{href}')
                 except TypeError:
-                    print('Error with link, try smth else')
-
-                companyName_from_h4 = div.find('h4')
-                companyName_text_conv = companyName_from_h4.text
-                companyName_text_only = companyName_text_conv.strip().strip('"')
-
-                print(f'{companyName_text_only}\n\n')
-                jobs.append({'Title': title_text_only,
+                    print('Link Error')
+                city_from_div = div.find('span', attrs={'class': 'text-sm'})
+                city_from_div_conv = city_from_div.text
+                city_from_div_text = city_from_div_conv.strip().strip('"')
+                company_name = div.find('div', attrs={'class': 'mt-1 text-sm'})
+                company_name_conv = company_name.text
+                company_name_conv_text_only = company_name_conv.strip().strip('"')
+                company_name_final = company_name_conv_text_only.split()[0]
+                jobs.append({'title': title_text_only,
                              'link': f'{domain}{href}',
-                             'CompanyName': companyName_text_only
+                             'city': city_from_div_text,
+                             'language': 'Python',
+                             'description': 'Test',
+                             'company': company_name_final,
                              })
-        # else:
-        #     errors.append()
 
     except TypeError as e:
         errors.append(e)
 
-    # print(jobs)
     return jobs
 
 
-print(
-    pracuj_scrap(
-        'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'
-    )
-)
-print(
-    pracuj_aplikujpl(
-        'https://www.aplikuj.pl/praca/zawod/python-developer'
-    )
-)
+# print(
+#     pracuj_scrap(
+#         'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'
+#     )
+# )
+# print(
+#     pracuj_aplikujpl(
+#         'https://www.aplikuj.pl/praca/zawod/python-developer'
+#     )
+# )
 # h = codecs.open('work.txt', 'w', 'utf8')
 # h.write(str(jobs))
 # h.close()

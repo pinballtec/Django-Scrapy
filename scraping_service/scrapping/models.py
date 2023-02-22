@@ -6,8 +6,8 @@ from .utils import from_cyrillic_to_eng
 
 
 class City(models.Model):
-    name = models.CharField(max_length=50, verbose_name='City Name')
-    slug = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, verbose_name='City Name', unique=True)
+    slug = models.CharField(max_length=50, blank=True, unique=True)
 
     def __str__(self):
         return self.name
