@@ -2,6 +2,7 @@ import requests
 import codecs
 from bs4 import BeautifulSoup
 from random import randint
+import logging
 
 __all__ = ('pracuj_scrap', 'pracuj_aplikujpl')
 
@@ -39,9 +40,9 @@ def pracuj_scrap(url):
                 """getting direct link from href"""
                 try:
                     href = title_from_h2.a['href']
-                    print(href)
+                    # print(href)
                 except TypeError:
-                    print('Link Error')
+                    logging.error('Url Error')
 
                 companyName_from_h4 = div.find('h4')
                 companyName_text_conv = companyName_from_h4.text
@@ -83,9 +84,9 @@ def pracuj_aplikujpl(url):
                 """getting direct link from href"""
                 try:
                     href = title_from_h3.a['href']
-                    # print(f'{domain}{href}')
+                    logging.info(f'{domain}{href}')
                 except TypeError:
-                    print('Link Error')
+                    logging.error('Url Error')
                 city_from_div = div.find('span', attrs={'class': 'text-sm'})
                 city_from_div_conv = city_from_div.text
                 city_from_div_text = city_from_div_conv.strip().strip('"')
