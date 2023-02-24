@@ -3,6 +3,10 @@ from .utils import from_cyrillic_to_eng
 import jsonfield
 
 
+def default_url():
+    return {'pracuj.pl': '', 'aplikuj.pl': ''}
+
+
 # Create your models here.
 
 
@@ -60,3 +64,21 @@ class Errors(models.Model):
 
     def __str__(self):
         return self.time_stamp.isoformat()
+
+
+class Url(models.Model):
+    city = models.ForeignKey(City,
+                             on_delete=models.CASCADE,
+                             null=True,
+                             verbose_name='City'
+                             )
+
+    language = models.ForeignKey(Programming_Language,
+                                 on_delete=models.CASCADE,
+                                 null=True,
+                                 verbose_name='Programming Language')
+
+    url_data = jsonfield.JSONField(default=default_url)
+
+    class Meta:
+        unique_together = ('city', 'language')

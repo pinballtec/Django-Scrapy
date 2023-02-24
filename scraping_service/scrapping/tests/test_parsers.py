@@ -43,3 +43,17 @@ class TestPracujScrap(unittest.TestCase):
             # Check that the language is a non-empty string
             self.assertIsInstance(job['language'], str)
             self.assertTrue(job['language'])
+
+    def setUp(self):
+        self.url = 'https://www.aplikuj.pl/praca/zawod/python-developer'
+
+    def test_pracuj_aplikujpl(self):
+        jobs = scraping.pracuj_aplikujpl(self.url)
+        self.assertTrue(len(jobs) > 0)
+        for job in jobs:
+            self.assertIn('title', job)
+            self.assertIn('link', job)
+            self.assertIn('city', job)
+            self.assertIn('language', job)
+            self.assertIn('description', job)
+            self.assertIn('company', job)
