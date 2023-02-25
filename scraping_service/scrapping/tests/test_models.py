@@ -93,3 +93,43 @@ class ErrorsModelTestCase(TestCase):
         # Retrieve the instance and verify that the data field matches the sample data
         retrieved_error = Errors.objects.get(id=error.id)
         self.assertEqual(retrieved_error.data, sample_data)
+
+
+class UrlModelTestCase(TestCase):
+
+    def setUp(self):
+        self.city = City.objects.create(name='New York')
+        self.language = Programming_Language.objects.create(name='Python')
+
+    def test_create_url(self):
+        url_data = {
+            'key1': 'value1',
+            'key2': 'value2',
+            'key3': 'value3'
+        }
+        url = Url.objects.create(
+            city=self.city,
+            language=self.language,
+            url_data=url_data
+        )
+        self.assertEqual(url.city, self.city)
+        self.assertEqual(url.language, self.language)
+        self.assertEqual(url.url_data, url_data)
+
+    def test_create_duplicate_url(self):
+        url_data = {
+            'key1': 'value1',
+            'key2': 'value2',
+            'key3': 'value3'
+        }
+        url1 = Url.objects.create(
+            city=self.city,
+            language=self.language,
+            url_data=url_data
+        )
+        with self.assertRaises(Exception):
+            url2 = Url.objects.create(
+                city=self.city,
+                language=self.language,
+                url_data=url_data
+            )
