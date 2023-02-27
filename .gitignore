@@ -2,12 +2,12 @@
 
 # Django #
 *.log
-*.pot
-*.pyc
 __pycache__
 db.sqlite3
-media
 .idea/**/aws.xml
+scrapping/__pycache__/
+scraping_service/__pycache__/
+ ../scrapping/tests/__pycache__/
 
 # PyCharm #
 .idea/**/workspace.xml
@@ -18,3 +18,6 @@ media
 
 .python-version
 
+.gitignore
+
+../db.sqlite3
