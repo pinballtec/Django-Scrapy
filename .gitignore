@@ -8,6 +8,9 @@ db.sqlite3
 scrapping/__pycache__/
 scraping_service/__pycache__/
  ../scrapping/tests/__pycache__/
+ scrapping/migrations/
+ scrapping/migrations/__pycache__/
+
 
 # PyCharm #
 .idea/**/workspace.xml

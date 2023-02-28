@@ -27,7 +27,8 @@ def pracuj_scrap(url):
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
             main_div = soup.find('div', attrs={'id': '__next'})
-            div_list = main_div.find_all('div', attrs={'class': 'c1dwhfs6'})
+            div_list = main_div.find_all('div', attrs={'class': 'c8i823f'})
+            ev = 0
             for div in div_list:
                 title_from_h2 = div.find('h2')
                 title_conv = title_from_h2.text
