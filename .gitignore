@@ -24,3 +24,5 @@ scraping_service/__pycache__/
 .gitignore
 
 ../db.sqlite3
+
+ scraping_service/settings.py

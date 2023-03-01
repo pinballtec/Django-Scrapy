@@ -3,6 +3,7 @@ import os
 import sys
 import logging
 
+from django.contrib.auth import get_user_model
 from django.db import DatabaseError
 
 proj = os.path.dirname(os.path.abspath('manage.py'))
@@ -14,8 +15,18 @@ django.setup()
 from scrapping.models import City, Programming_Language, Job_Offers, Errors
 from scrapping.parcers.scraping import *
 
+user = get_user_model()
+
 parsers = ((pracuj_aplikujpl, 'https://www.aplikuj.pl/praca/zawod/python-developer'),
            (pracuj_scrap, 'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'))
+
+
+def get_settings():
+    """getting info from user saving in newsletter"""
+    qs = user.objects.filter(newsletter=True).values()
+    settings_list = set((q['city_id'], q['language_id']) for q in qs)
+    return settings_list
+
 
 city = City.objects.filter(slug='kiev').first()
 language = Programming_Language.objects.filter(slug='teSt').first()
@@ -32,8 +43,6 @@ for func, url in parsers:
         j = func(url)
         jobs += j
 
-# print(jobs)
-e = 0
 for parser, url in parsers:
     jobs = parser(url)
     for job in jobs:
