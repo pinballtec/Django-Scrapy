@@ -12,13 +12,13 @@ sys.path.append(proj)
 os.environ["DJANGO_SETTINGS_MODULE"] = 'scraping_service.settings'
 django.setup()
 
-from scrapping.models import City, Programming_Language, Job_Offers, Errors
+from scrapping.models import *
 from scrapping.parcers.scraping import *
 
 user = get_user_model()
 
 parsers = ((pracuj_aplikujpl, 'https://www.aplikuj.pl/praca/zawod/python-developer'),
-           (pracuj_scrap, 'https://www.pracuj.pl/praca/programista%20python;kw?et=17%2C1'))
+           (pracuj_scrap, 'https://www.pracuj.pl/praca/programista%20python;kw/warszawa;wp?rd=30'))
 
 
 def get_settings():
@@ -28,8 +28,30 @@ def get_settings():
     return settings_list
 
 
-city = City.objects.filter(slug='kiev').first()
-language = Programming_Language.objects.filter(slug='teSt').first()
+def get_urls(_settings):
+    qs = Url.objects.all().values()
+    url_dct = {(q['city_id'], q['language_id']): q['url_data'] for q in qs}
+    urls = []
+    for pair in _settings:
+        tmp = {}
+        tmp['city'] = pair[0]
+        tmp['language'] = pair[1]
+        url_data = url_dct[pair]
+        if url_data:
+            tmp['url_data'] = url_data
+            urls.append(tmp)
+        else:
+            print(f"No URL data found for pair {pair}")
+            print(f"Current url_dct: {url_dct}")
+    return urls
+
+
+g = get_settings()
+u = get_urls(g)
+ev = 0
+
+# city = City.objects.filter(slug='kiev').first()
+# language = Programming_Language.objects.filter(slug='teSt').first()
 
 jobs, errors = [], []
 for func, url in parsers:
