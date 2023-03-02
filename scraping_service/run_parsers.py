@@ -46,12 +46,11 @@ def get_urls(_settings):
     return urls
 
 
-g = get_settings()
-u = get_urls(g)
-ev = 0
+settings = get_settings()
+u = get_urls(settings)
 
-# city = City.objects.filter(slug='kiev').first()
-# language = Programming_Language.objects.filter(slug='teSt').first()
+city = City.objects.filter(slug='kiev').first()
+language = Programming_Language.objects.filter(slug='teSt').first()
 
 jobs, errors = [], []
 for func, url in parsers:

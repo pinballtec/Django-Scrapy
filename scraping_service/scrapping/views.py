@@ -19,7 +19,7 @@ class HomeView(View):
                 _filter['city__name'] = city
             if programming_language:
                 _filter['language__name'] = programming_language
-            qs = Job_Offers.objects.filter(**_filter)
+            qs = Job_Offers.objects.filter(**_filter).order_by('-time_stamp')
         return render(request,
                       'scrapping/home.html',
                       {'object_list': qs, 'form': form})
