@@ -45,3 +45,19 @@ input[type="submit"]:hover {
   border-style: ridge;
   color: black;
 }
+
+.header {
+  background-color: #F8F8F8;
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 20px;
+}

@@ -9,6 +9,15 @@ class HomeView(View):
     def get(self, request, *args, **kwargs):
         print(request.GET)
         form = FindForm()
+        return render(request,
+                      'scrapping/home.html',
+                      {'form': form})
+
+
+class ListView(View):
+    def get(self, request, *args, **kwargs):
+        print(request.GET)
+        form = FindForm()
         city = request.GET.get('city')
         programming_language = request.GET.get('p_language')
         qs = []
@@ -21,5 +30,5 @@ class HomeView(View):
                 _filter['language__name'] = programming_language
             qs = Job_Offers.objects.filter(**_filter).order_by('-time_stamp')
         return render(request,
-                      'scrapping/home.html',
+                      'scrapping/list.html',
                       {'object_list': qs, 'form': form})
