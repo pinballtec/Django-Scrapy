@@ -47,7 +47,6 @@ input[type="submit"]:hover {
 }
 
 .header {
-  background-color: #F8F8F8;
   text-align: center;
   padding: 20px;
 }
@@ -60,4 +59,38 @@ h2 {
 
 p {
   font-size: 20px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 3px;
+  background-color: #f4f4f4;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.pagination a:hover,
+.pagination .current-page {
+  background-color: #333;
+  color: #fff;
+}
+
+.pagination .current-page {
+  font-weight: bold;
+}
+
+.pagination span {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 5px;
+  color: #333;
 }
