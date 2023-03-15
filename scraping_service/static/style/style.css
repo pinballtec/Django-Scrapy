@@ -94,3 +94,32 @@ p {
   margin: 0 5px;
   color: #333;
 }
+
+.noaccountdiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.text-muted {
+  font-size: 14px;
+}
+
+.text-muted a {
+  color: blue;
+  text-decoration: none;
+}
+
+.text-muted a:hover {
+  text-decoration: underline;
+}
+
+.logout {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.logout a {
+  text-decoration: none;
+  color: blue;
+}

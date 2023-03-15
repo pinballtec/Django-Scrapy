@@ -1,5 +1,4 @@
 import requests
-import codecs
 from bs4 import BeautifulSoup
 from random import randint
 import logging
@@ -44,14 +43,14 @@ def pracuj_scrap(url):
                 except TypeError:
                     logging.error('Url Error')
 
-                companyName_from_h4 = div.find('h4')
-                companyName_text_conv = companyName_from_h4.text
-                companyName_text_only = companyName_text_conv.strip().strip('"')
+                company_name_from_h4 = div.find('h4')
+                company_name_text_conv = company_name_from_h4.text
+                company_name_text_only = company_name_text_conv.strip().strip('"')
                 # print(f'{companyName_text_only}\n\n')
                 try:
                     jobs.append({'title': title_text_only,
                                  'link': href,
-                                 'company': companyName_text_only,
+                                 'company': company_name_text_only,
                                  'description': 'Test',
                                  'city': city_name_text_only,
                                  'language': 'Python',
@@ -106,6 +105,3 @@ def pracuj_aplikujpl(url):
         errors.append({'Error': e})
 
     return jobs
-
-
-print(errors)

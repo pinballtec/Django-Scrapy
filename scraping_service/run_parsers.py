@@ -2,6 +2,7 @@ import django
 import os
 import sys
 import logging
+from loguru import logger
 
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
@@ -17,8 +18,11 @@ from scrapping.parcers.scraping import *
 
 user = get_user_model()
 
-parsers = ((pracuj_aplikujpl, 'https://www.aplikuj.pl/praca/zawod/python-developer'),
-           (pracuj_scrap, 'https://www.pracuj.pl/praca/programista%20python;kw/warszawa;wp?rd=30'))
+parsers = ((pracuj_aplikujpl,
+            'https://www.aplikuj.pl/praca/zawod/python-developer'),
+           (pracuj_scrap,
+            'https://www.pracuj.pl/praca/programista%20python;kw/warszawa;wp?rd=30')
+           )
 
 
 def get_settings():
@@ -36,13 +40,16 @@ def get_urls(_settings):
         tmp = {}
         tmp['city'] = pair[0]
         tmp['language'] = pair[1]
-        url_data = url_dct[pair]
-        if url_data:
-            tmp['url_data'] = url_data
-            urls.append(tmp)
-        else:
-            print(f"No URL data found for pair {pair}")
-            print(f"Current url_dct: {url_dct}")
+        try:
+            url_data = url_dct[pair]
+            if url_data:
+                tmp['url_data'] = url_data
+                urls.append(tmp)
+            else:
+                logger.info(f"No URL data found for pair {pair}")
+                logger.info(f"Current url_dct: {url_dct}")
+        except KeyError:
+            logger.debug('None key error')
     return urls
 
 
@@ -92,7 +99,7 @@ for parser, url in parsers:
             except DatabaseError as e:
                 logging.error(f"Error saving job offer: {e}")
             else:
-                logging.info("Job offer saved successfully")
+                logger.info("Job offer saved successfully")
 
     if errors:
         er = Errors(data=errors).save()
