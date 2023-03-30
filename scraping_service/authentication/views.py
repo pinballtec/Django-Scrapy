@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import NewUserForm, UserLoginForm
+from .forms import NewUserForm, UserLoginForm, UserUpdateForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 # Create your views here.
@@ -33,3 +33,23 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return redirect('login')
+
+
+def update_user_info(request):
+    if request.user.is_authenticated:
+        user = request.user
+        if request.method == 'POST':
+            form = UserUpdateForm(request.POST)
+            if form.is_valid():
+                user.city = form.cleaned_data['city']
+                user.language = form.cleaned_data['language']
+                user.newsletter = form.cleaned_data['newsletter']
+                user.save()
+                return redirect('home')
+        else:
+            form = UserUpdateForm(initial={'city': user.city,
+                                           'language': user.language,
+                                           'newsletter': user.newsletter})
+        return render(request, 'authentication/update_data.html', {'form': form})
+    else:
+        return redirect('authentication/login.html')

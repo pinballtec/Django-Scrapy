@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import check_password
+
+from scrapping.models import City, Programming_Language
+
 User = get_user_model()
 
 
@@ -41,3 +44,17 @@ class UserLoginForm(forms.Form):
             if not user:
                 raise forms.ValidationError('User is banned')
         return super(UserLoginForm, self).clean(*args, **kwargs)
+
+
+class UserUpdateForm(forms.Form):
+    city = forms.ModelChoiceField(queryset=City.objects.all(),
+                                  to_field_name='name')
+
+    language = forms.ModelChoiceField(queryset=Programming_Language.objects.all(),
+                                      to_field_name='name')
+
+    newsletter = forms.BooleanField(required=False, widget=forms.CheckboxInput, label='Newsletter')
+
+    class Meta:
+        model = User
+        fields = ('city', 'language', 'newsletter')
