@@ -21,3 +21,4 @@ class AuthenticationUrlsTestCase(TestCase):
         url = reverse('logout')
         view = resolve(url).func
         self.assertEqual(view, logout_page)
+# afgoUSADGHjklsa;GD
