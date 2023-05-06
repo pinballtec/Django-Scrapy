@@ -7,9 +7,12 @@ __all__ = ('pracuj_scrap', 'pracuj_aplikujpl')
 
 """mask to be browser(firefox) while request"""
 headers = [
-    {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'},
-    {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'},
-    {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'},
+    {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'},
+    {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'},
+    {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'},
 ]
 
 errors = []
@@ -26,7 +29,7 @@ def pracuj_scrap(url):
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
             main_div = soup.find('div', attrs={'id': '__next'})
-            div_list = main_div.find_all('div', attrs={'class': 'c8i823f'})
+            div_list = main_div.find_all('div', attrs={'class': 'listing_c7z99rl'})
             for div in div_list:
                 title_from_h2 = div.find('h2')
                 title_conv = title_from_h2.text

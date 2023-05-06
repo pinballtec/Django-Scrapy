@@ -26,3 +26,5 @@ scraping_service/__pycache__/
 ../db.sqlite3
 
  scraping_service/settings.py
+
+ newenv
