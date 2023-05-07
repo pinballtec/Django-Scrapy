@@ -1,5 +1,5 @@
 .idea
-
+scraping_service/.env
 # Django #
 *.log
 __pycache__
@@ -28,3 +28,4 @@ scraping_service/__pycache__/
  scraping_service/settings.py
 
  newenv
+
